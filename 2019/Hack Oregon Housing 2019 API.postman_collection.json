@@ -1,0 +1,5734 @@
+{
+	"info": {
+		"_postman_id": "20e606d9-5c19-41ed-a6ca-901bc7a6f423",
+		"name": "Hack Oregon Housing 2019 API",
+		"description": "APIs for 2019 housing project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "housing2019",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "api",
+							"item": [
+								{
+									"name": "fipsrecords",
+									"item": [
+										{
+											"name": "fipsrecords list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "0562694a-98db-4846-a7f7-0027f3bb6fa1",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/fipsrecords/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"fipsrecords",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/fipsrecords/?limit=<integer>&offset=<integer>&geo_fips=<number>&geo_state=<number>&geo_county=<number>&geo_tract=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"fipsrecords",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "geo_fips",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_state",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_county",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_tract",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "fipsrecords read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "8c1a367c-0a26-49b1-b2e3-a8895821190d",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('geo_fips', 'geo_state', 'geo_county','geo_tract');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/fipsrecords/:geo_fips/?geo_fips={{geo_fips}}&geo_state={{geo_state}}&geo_county={{geo_county}}&geo_tract={{geo_tract}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"fipsrecords",
+														":geo_fips",
+														""
+													],
+													"query": [
+														{
+															"key": "geo_fips",
+															"value": "{{geo_fips}}"
+														},
+														{
+															"key": "geo_state",
+															"value": "{{geo_state}}"
+														},
+														{
+															"key": "geo_county",
+															"value": "{{geo_county}}"
+														},
+														{
+															"key": "geo_tract",
+															"value": "{{geo_tract}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "14cc60cc-9072-4b07-8f0c-f267d611aed9",
+															"key": "geo_fips",
+															"value": "{{geo_fips}}",
+															"type": "string",
+															"description": "A unique value identifying this fips records."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/fipsrecords/<string>/?geo_fips=<number>&geo_state=<number>&geo_county=<number>&geo_tract=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"fipsrecords",
+																"<string>",
+																""
+															],
+															"query": [
+																{
+																	"key": "geo_fips",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_state",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_county",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geo_tract",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "hmdaorwa",
+									"item": [
+										{
+											"name": "hmdaorwa read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "fb510616-c20a-4d2c-b7b8-29e37768cc94",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys(\"index\",\"year\",\"actiontakentype\",\"agencyname\",\"applicant1_sex_name\",\"applicant1race\",\"applicant2_sex_name\",\"applicant2race\",\"applicantincome\",\"censustract\",\"countycode\",\"denialreason1\",\"denialreason2\",\"denialreason3\",\"editstatus\",\"hoepa_loan\",\"hud_median_family_income\",\"lienstatus\",\"loanamount\",\"loanpurpose\",\"loantype\",\"minority_population\",\"msaofproperty\",\"number_of_1_to_4_family_units\",\"number_of_owner_occupied_units\",\"occupancy\",\"population\",\"preapprovals\",\"propertytype\",\"purchasertype\",\"ratespread\",\"respondent_id\",\"sequencenumber\",\"state\",\"tract_to_msamd_income\"",
+															"    );",
+															"});",
+															"",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/hmdaorwa/:index/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"hmdaorwa",
+														":index",
+														""
+													],
+													"variable": [
+														{
+															"id": "4a0502fb-2cfe-4f18-aecc-10b7b95a8061",
+															"key": "index",
+															"value": "115",
+															"type": "string",
+															"description": "A unique value identifying this hmda orwa."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/hmdaorwa/<string>/?index=<number>&year=<string>&actiontakentype=<string>&agencyname=<string>&applicant1_sex_name=<string>&applicant1race=<string>&applicant2_sex_name=<string>&applicant2race=<string>&applicantincome=<number>&censustract=<string>&countycode=<string>&denialreason1=<string>&denialreason2=<string>&denialreason3=<string>&editstatus=<string>&hoepa_loan=<string>&hud_median_family_income=<number>&lienstatus=<string>&loanamount=<number>&loanpurpose=<string>&loantype=<string>&minority_population=<number>&msaofproperty=<string>&number_of_1_to_4_family_units=<number>&number_of_owner_occupied_units=<number>&occupancy=<string>&population=<number>&preapprovals=<string>&propertytype=<string>&purchasertype=<string>&ratespread=<number>&respondent_id=<string>&sequencenumber=<number>&state=<string>&tract_to_msamd_income=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"hmdaorwa",
+																"<string>",
+																""
+															],
+															"query": [
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "actiontakentype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "agencyname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant1_sex_name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant1race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant2_sex_name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant2race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicantincome",
+																	"value": "<number>"
+																},
+																{
+																	"key": "censustract",
+																	"value": "<string>"
+																},
+																{
+																	"key": "countycode",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason1",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason2",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason3",
+																	"value": "<string>"
+																},
+																{
+																	"key": "editstatus",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hoepa_loan",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hud_median_family_income",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lienstatus",
+																	"value": "<string>"
+																},
+																{
+																	"key": "loanamount",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loanpurpose",
+																	"value": "<string>"
+																},
+																{
+																	"key": "loantype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "minority_population",
+																	"value": "<number>"
+																},
+																{
+																	"key": "msaofproperty",
+																	"value": "<string>"
+																},
+																{
+																	"key": "number_of_1_to_4_family_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "number_of_owner_occupied_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "occupancy",
+																	"value": "<string>"
+																},
+																{
+																	"key": "population",
+																	"value": "<number>"
+																},
+																{
+																	"key": "preapprovals",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propertytype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "purchasertype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "ratespread",
+																	"value": "<number>"
+																},
+																{
+																	"key": "respondent_id",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sequencenumber",
+																	"value": "<number>"
+																},
+																{
+																	"key": "state",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tract_to_msamd_income",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "holcportlandredlining",
+									"item": [
+										{
+											"name": "holcportlandredlining list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "0dda5621-87d7-4373-879a-8f1f3dc69f31",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"holcportlandredliningId\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/holcportlandredlining/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"holcportlandredlining",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/holcportlandredlining/?limit=<integer>&offset=<integer>&name=<string>&holc_id=<string>&holc_grade=<string>&area_descr=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"holcportlandredlining",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "holc_id",
+																	"value": "<string>"
+																},
+																{
+																	"key": "holc_grade",
+																	"value": "<string>"
+																},
+																{
+																	"key": "area_descr",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "holcportlandredlining read",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"id": "625ba3e1-6a2a-4d72-9399-e08f6d991059",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"id": "a609469d-be0c-41bc-bd17-cf99a9b89b11",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/holcportlandredlining/{{holcportlandredliningId}}/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"holcportlandredlining",
+														"{{holcportlandredliningId}}",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/holcportlandredlining/<integer>/?name=<string>&holc_id=<string>&holc_grade=<string>&area_descr=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"holcportlandredlining",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "holc_id",
+																	"value": "<string>"
+																},
+																{
+																	"key": "holc_grade",
+																	"value": "<string>"
+																},
+																{
+																	"key": "area_descr",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "homeinflationkriging",
+									"item": [
+										{
+											"name": "homeinflationkriging list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "b6bab185-baec-49e4-ad00-c21fee2f7c30",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"homeinflationkrigingId\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/homeinflationkriging/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"homeinflationkriging",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/homeinflationkriging/?limit=<integer>&offset=<integer>&appreciation_estimates=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"homeinflationkriging",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "appreciation_estimates",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "homeinflationkriging read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "9cf859fe-82de-4762-8499-eebe5d26e735",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/homeinflationkriging/{{homeinflationkrigingId}}/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"homeinflationkriging",
+														"{{homeinflationkrigingId}}",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/homeinflationkriging/<integer>/?appreciation_estimates=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"homeinflationkriging",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "appreciation_estimates",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "medianhouseholdincomebyrace1990t2017msa",
+									"item": [
+										{
+											"name": "medianhouseholdincomebyrace1990t2017msa list",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"id": "45fef932-c28a-4351-b08b-df0459195ccc",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"id": "31fdb246-97cc-42ba-910f-eec28a527568",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdincomebyrace1990t2017msa/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"medianhouseholdincomebyrace1990t2017msa",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdincomebyrace1990t2017msa/?limit=<integer>&offset=<integer>&race_explicit=<string>&year=<number>&adjusted_median_income=<number>&source=<string>&aggregation=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"medianhouseholdincomebyrace1990t2017msa",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "race_explicit",
+																	"value": "<string>"
+																},
+																{
+																	"key": "year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adjusted_median_income",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aggregation",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "medianhouseholdincomebyrace1990t2017msa read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "9e036897-f17d-4dbc-bf1f-e004484ce966",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('id', 'race_explicit', 'year','adjusted_median_income','source','aggregation');",
+															"});",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdincomebyrace1990t2017msa/:id/?race_explicit={{race_explicit}}&year={{year}}&adjusted_median_income={{adjusted_median_income}}&source={{source}}&aggregation={{aggregation}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"medianhouseholdincomebyrace1990t2017msa",
+														":id",
+														""
+													],
+													"query": [
+														{
+															"key": "race_explicit",
+															"value": "{{race_explicit}}"
+														},
+														{
+															"key": "year",
+															"value": "{{year}}"
+														},
+														{
+															"key": "adjusted_median_income",
+															"value": "{{adjusted_median_income}}"
+														},
+														{
+															"key": "source",
+															"value": "{{source}}"
+														},
+														{
+															"key": "aggregation",
+															"value": "{{aggregation}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "1a7a3590-27fd-418d-9ea4-ab501c1a253f",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdincomebyrace1990t2017msa/<integer>/?race_explicit=<string>&year=<number>&adjusted_median_income=<number>&source=<string>&aggregation=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"medianhouseholdincomebyrace1990t2017msa",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "race_explicit",
+																	"value": "<string>"
+																},
+																{
+																	"key": "year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adjusted_median_income",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aggregation",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "medianhouseholdinecomebyrace2017",
+									"item": [
+										{
+											"name": "medianhouseholdinecomebyrace2017 list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "a9bc9900-aab7-4e6f-a852-05e0385ed537",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"medianhouseholdinecomebyrace2017Id\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdinecomebyrace2017/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"medianhouseholdinecomebyrace2017",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdinecomebyrace2017/?limit=<integer>&offset=<integer>&geoid=<string>&sumlevel=<string>&name=<string>&hh_income_total=<number>&hh_income_white=<number>&hh_income_black=<number>&hh_income_aian=<number>&hh_income_asian=<number>&hh_income_nhpi=<number>&hh_income_other=<number>&hh_income_multi=<number>&hh_income_whitenh=<number>&hh_income_hisp=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"medianhouseholdinecomebyrace2017",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "geoid",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sumlevel",
+																	"value": "<string>"
+																},
+																{
+																	"key": "name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hh_income_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_asian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_nhpi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_whitenh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_hisp",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "medianhouseholdinecomebyrace2017 read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "2bbbd41a-3a2b-4458-99ef-6c67fdae442d",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdinecomebyrace2017/:id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"medianhouseholdinecomebyrace2017",
+														":id",
+														""
+													],
+													"variable": [
+														{
+															"id": "f64a4f93-604d-46f5-8f8c-1d98aec4695c",
+															"key": "id",
+															"value": "{{medianhouseholdinecomebyrace2017Id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this median household income by race2017."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/medianhouseholdinecomebyrace2017/<integer>/?geoid=<string>&sumlevel=<string>&name=<string>&hh_income_total=<number>&hh_income_white=<number>&hh_income_black=<number>&hh_income_aian=<number>&hh_income_asian=<number>&hh_income_nhpi=<number>&hh_income_other=<number>&hh_income_multi=<number>&hh_income_whitenh=<number>&hh_income_hisp=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"medianhouseholdinecomebyrace2017",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "geoid",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sumlevel",
+																	"value": "<string>"
+																},
+																{
+																	"key": "name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hh_income_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_asian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_nhpi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_whitenh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hh_income_hisp",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "multnomahhomeownershipbyrace",
+									"item": [
+										{
+											"name": "multnomahhomeownershipbyrace list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "1a3a420d-1ab2-42b8-b5b7-5c28f97736e3",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/multnomahhomeownershipbyrace/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"multnomahhomeownershipbyrace",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/multnomahhomeownershipbyrace/?limit=<integer>&offset=<integer>&yr=<number>&race=<string>&home_ownership_rate=<number>&home_ownership_count=<number>&household_count=<number>&geoname=<string>&fips=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"multnomahhomeownershipbyrace",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "yr",
+																	"value": "<number>"
+																},
+																{
+																	"key": "race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "home_ownership_rate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "home_ownership_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "household_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geoname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "fips",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "multnomahhomeownershipbyrace read",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"id": "afea302c-000a-43a3-b2ca-7bc8e3df9941",
+														"exec": [
+															"",
+															""
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"id": "f4b9f046-8e2a-4977-bdf2-7ab55234eeb5",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('id', 'yr', 'race','home_ownership_rate','home_ownership_count','household_count','geoname','fips');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/multnomahhomeownershipbyrace/:id/?yr={{yr}}&race={{race}}&home_ownership_rate={{home_ownership_rate}}&home_ownership_count={{home_ownership_count}}&household_count={{household_count}}&geoname={{geoname}}&fips={{fips}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"multnomahhomeownershipbyrace",
+														":id",
+														""
+													],
+													"query": [
+														{
+															"key": "yr",
+															"value": "{{yr}}"
+														},
+														{
+															"key": "race",
+															"value": "{{race}}"
+														},
+														{
+															"key": "home_ownership_rate",
+															"value": "{{home_ownership_rate}}"
+														},
+														{
+															"key": "home_ownership_count",
+															"value": "{{home_ownership_count}}"
+														},
+														{
+															"key": "household_count",
+															"value": "{{household_count}}"
+														},
+														{
+															"key": "geoname",
+															"value": "{{geoname}}"
+														},
+														{
+															"key": "fips",
+															"value": "{{fips}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "e81b1b5f-8c62-49c5-8f49-8e2253a1c008",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this multnomah home ownership by race."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/multnomahhomeownershipbyrace/<integer>/?yr=<number>&race=<string>&home_ownership_rate=<number>&home_ownership_count=<number>&household_count=<number>&geoname=<string>&fips=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"multnomahhomeownershipbyrace",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "yr",
+																	"value": "<number>"
+																},
+																{
+																	"key": "race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "home_ownership_rate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "home_ownership_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "household_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geoname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "fips",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "ncdbsamplechanges",
+									"item": [
+										{
+											"name": "ncdbsamplechanges list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "40e96bf1-f4d5-492d-a2fd-518d2613043f",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsamplechanges/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"ncdbsamplechanges",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsamplechanges/?limit=<integer>&offset=<integer>&fips_code=<string>&cbsa=<number>&metroname=<string>&tractcontrol=<number>&start_year=<number>&end_year=<number>&chrent=<number>&chinc=<number>&chhomeval=<number>&chbachshare=<number>&chwhiteshare=<number>&chblackshare=<number>&chhispshare=<number>&chasothshare=<number>&chownshare=<number>&chpovrate=<number>&chrentcbshare=<number>&metchinc=<number>&metchbachshare=<number>&metchrent=<number>&metchhomeval=<number>&metchpovrate=<number>&metchownshare=<number>&metchrentcbshare=<number>&metchwhiteshare=<number>&metchblackshare=<number>&metchhispshare=<number>&metchasothshare=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"ncdbsamplechanges",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "fips_code",
+																	"value": "<string>"
+																},
+																{
+																	"key": "cbsa",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metroname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractcontrol",
+																	"value": "<number>"
+																},
+																{
+																	"key": "start_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "end_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chrent",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chbachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chhispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chasothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchbachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchrent",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchhispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchasothshare",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "ncdbsamplechanges read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "0065260c-0751-4568-a3fa-bfed266ab245",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('id','cbsa','metroname','tractcontrol','start_year','end_year','chrent','chinc','chhomeval','chbachshare','chwhiteshare','chblackshare','chhispshare','chasothshare','chownshare','chpovrate','chrentcbshare','metchinc','metchbachshare','metchrent','metchhomeval','metchpovrate','metchownshare','metchrentcbshare','metchwhiteshare','metchblackshare','metchhispshare','metchasothshare','fips_code');",
+															"});",
+															"",
+															"",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsamplechanges/:id/?fips_code={{fips_code}}&cbsa={{cbsa}}&metroname={{metroname}}&tractcontrol={{tractcontrol}}&start_year={{start_year}}&end_year={{end_year}}&chrent={{chrent}}&chinc={{chinc}}&chhomeval={{chhomeval}}&chbachshare={{chbachshare}}&chwhiteshare={{chwhiteshare}}&chblackshare={{chblackshare}}&chhispshare={{chhispshare}}&chasothshare={{chasothshare}}&chownshare={{chownshare}}&chpovrate={{chpovrate}}&chrentcbshare={{chrentcbshare}}&metchinc={{metchinc}}&metchbachshare={{metchbachshare}}&metchrent={{metchrent}}&metchhomeval={{metchhomeval}}&metchpovrate={{metchpovrate}}&metchownshare={{metchownshare}}&metchrentcbshare={{metchrentcbshare}}&metchwhiteshare={{metchwhiteshare}}&metchblackshare={{metchblackshare}}&metchhispshare={{metchhispshare}}&metchasothshare={{metchasothshare}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"ncdbsamplechanges",
+														":id",
+														""
+													],
+													"query": [
+														{
+															"key": "fips_code",
+															"value": "{{fips_code}}"
+														},
+														{
+															"key": "cbsa",
+															"value": "{{cbsa}}"
+														},
+														{
+															"key": "metroname",
+															"value": "{{metroname}}"
+														},
+														{
+															"key": "tractcontrol",
+															"value": "{{tractcontrol}}"
+														},
+														{
+															"key": "start_year",
+															"value": "{{start_year}}"
+														},
+														{
+															"key": "end_year",
+															"value": "{{end_year}}"
+														},
+														{
+															"key": "chrent",
+															"value": "{{chrent}}"
+														},
+														{
+															"key": "chinc",
+															"value": "{{chinc}}"
+														},
+														{
+															"key": "chhomeval",
+															"value": "{{chhomeval}}"
+														},
+														{
+															"key": "chbachshare",
+															"value": "{{chbachshare}}"
+														},
+														{
+															"key": "chwhiteshare",
+															"value": "{{chwhiteshare}}"
+														},
+														{
+															"key": "chblackshare",
+															"value": "{{chblackshare}}"
+														},
+														{
+															"key": "chhispshare",
+															"value": "{{chhispshare}}"
+														},
+														{
+															"key": "chasothshare",
+															"value": "{{chasothshare}}"
+														},
+														{
+															"key": "chownshare",
+															"value": "{{chownshare}}"
+														},
+														{
+															"key": "chpovrate",
+															"value": "{{chpovrate}}"
+														},
+														{
+															"key": "chrentcbshare",
+															"value": "{{chrentcbshare}}"
+														},
+														{
+															"key": "metchinc",
+															"value": "{{metchinc}}"
+														},
+														{
+															"key": "metchbachshare",
+															"value": "{{metchbachshare}}"
+														},
+														{
+															"key": "metchrent",
+															"value": "{{metchrent}}"
+														},
+														{
+															"key": "metchhomeval",
+															"value": "{{metchhomeval}}"
+														},
+														{
+															"key": "metchpovrate",
+															"value": "{{metchpovrate}}"
+														},
+														{
+															"key": "metchownshare",
+															"value": "{{metchownshare}}"
+														},
+														{
+															"key": "metchrentcbshare",
+															"value": "{{metchrentcbshare}}"
+														},
+														{
+															"key": "metchwhiteshare",
+															"value": "{{metchwhiteshare}}"
+														},
+														{
+															"key": "metchblackshare",
+															"value": "{{metchblackshare}}"
+														},
+														{
+															"key": "metchhispshare",
+															"value": "{{metchhispshare}}"
+														},
+														{
+															"key": "metchasothshare",
+															"value": "{{metchasothshare}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "154c1e23-e91c-4c1f-8ff9-74e384ef75f2",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsamplechanges/<integer>/?fips_code=<string>&cbsa=<number>&metroname=<string>&tractcontrol=<number>&start_year=<number>&end_year=<number>&chrent=<number>&chinc=<number>&chhomeval=<number>&chbachshare=<number>&chwhiteshare=<number>&chblackshare=<number>&chhispshare=<number>&chasothshare=<number>&chownshare=<number>&chpovrate=<number>&chrentcbshare=<number>&metchinc=<number>&metchbachshare=<number>&metchrent=<number>&metchhomeval=<number>&metchpovrate=<number>&metchownshare=<number>&metchrentcbshare=<number>&metchwhiteshare=<number>&metchblackshare=<number>&metchhispshare=<number>&metchasothshare=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"ncdbsamplechanges",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "fips_code",
+																	"value": "<string>"
+																},
+																{
+																	"key": "cbsa",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metroname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractcontrol",
+																	"value": "<number>"
+																},
+																{
+																	"key": "start_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "end_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chrent",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chbachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chhispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chasothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "chrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchbachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchrent",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchhispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metchasothshare",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "ncdbsampleyearly",
+									"item": [
+										{
+											"name": "ncdbsampleyearly list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "c9ce8648-697f-4140-a3c8-5ccb37157d80",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"ncdbsampleyearlyId\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsampleyearly/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"ncdbsampleyearly",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsampleyearly/?limit=<integer>&offset=<integer>&fips_code=<string>&cbsa=<number>&metroname=<string>&tractcontrol=<number>&year=<number>&tractpopulation=<number>&medinc=<number>&medhomeval=<number>&medrentval=<number>&ownshare=<number>&whiteshare=<number>&blackshare=<number>&hispshare=<number>&asothshare=<number>&rentcbshare=<number>&povrate=<number>&bachshare=<number>&metmedinc=<number>&metmedhomeval=<number>&metmedrentval=<number>&metownshare=<number>&metwhiteshare=<number>&metblackshare=<number>&methispshare=<number>&metasothshare=<number>&metrentcbshare=<number>&metpovrate=<number>&metbachshare=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"ncdbsampleyearly",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "fips_code",
+																	"value": "<string>"
+																},
+																{
+																	"key": "cbsa",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metroname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractcontrol",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "tractpopulation",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medrentval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "ownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "whiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "blackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "asothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "rentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "povrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "bachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedrentval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "methispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metasothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metbachshare",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "ncdbsampleyearly read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "3f82ca2b-4ffa-4fda-bd9a-d76bf36c9b26",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsampleyearly/:id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"ncdbsampleyearly",
+														":id",
+														""
+													],
+													"variable": [
+														{
+															"id": "ff559ca8-76e3-452c-97f0-7147fe3e5b00",
+															"key": "id",
+															"value": "{{ncdbsampleyearlyId}}",
+															"type": "string",
+															"description": "A unique integer value identifying this ncdb sample yearly."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/ncdbsampleyearly/<integer>/?fips_code=<string>&cbsa=<number>&metroname=<string>&tractcontrol=<number>&year=<number>&tractpopulation=<number>&medinc=<number>&medhomeval=<number>&medrentval=<number>&ownshare=<number>&whiteshare=<number>&blackshare=<number>&hispshare=<number>&asothshare=<number>&rentcbshare=<number>&povrate=<number>&bachshare=<number>&metmedinc=<number>&metmedhomeval=<number>&metmedrentval=<number>&metownshare=<number>&metwhiteshare=<number>&metblackshare=<number>&methispshare=<number>&metasothshare=<number>&metrentcbshare=<number>&metpovrate=<number>&metbachshare=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"ncdbsampleyearly",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "fips_code",
+																	"value": "<string>"
+																},
+																{
+																	"key": "cbsa",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metroname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractcontrol",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "tractpopulation",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "medrentval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "ownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "whiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "blackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "hispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "asothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "rentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "povrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "bachshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedinc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedhomeval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metmedrentval",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metownshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metwhiteshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metblackshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "methispshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metasothshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metrentcbshare",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metpovrate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "metbachshare",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "portlandhomeappreciationannuallysince1990ish",
+									"item": [
+										{
+											"name": "portlandhomeappreciationannuallysince1990ish list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "38dd968c-123b-4f17-a2b8-f5e3a02290fb",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeappreciationannuallysince1990ish/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"portlandhomeappreciationannuallysince1990ish",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeappreciationannuallysince1990ish/?limit=<integer>&offset=<integer>&prev_sale_year=<string>&sale_year=<number>&raw_appreciation_mean=<number>&raw_appreciation_25th=<number>&raw_appreciation_75th=<number>&raw_appreciation_med=<number>&adj_appreciation_mean=<number>&adj_appreciation_25th=<number>&adj_appreciation_75th=<number>&adj_appreciation_med=<number>&count=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"portlandhomeappreciationannuallysince1990ish",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "prev_sale_year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sale_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_mean",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_25th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_75th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_med",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_mean",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_25th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_75th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_med",
+																	"value": "<number>"
+																},
+																{
+																	"key": "count",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "portlandhomeappreciationannuallysince1990ish read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "f6c3f32e-3035-426f-87ad-d00317c9c26e",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('id','prev_sale_year','sale_year','raw_appreciation_mean','raw_appreciation_25th','raw_appreciation_75th','raw_appreciation_med','adj_appreciation_mean','adj_appreciation_25th','adj_appreciation_75th','adj_appreciation_med','count');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeappreciationannuallysince1990ish/:id/?prev_sale_year={{prev_sale_year}}&sale_year={{sale_year}}&raw_appreciation_mean={{raw_appreciation_mean}}&raw_appreciation_25th={{raw_appreciation_25th}}&raw_appreciation_75th={{raw_appreciation_75th}}&raw_appreciation_med={{raw_appreciation_med}}&adj_appreciation_mean={{adj_appreciation_mean}}&adj_appreciation_25th={{adj_appreciation_25th}}&adj_appreciation_75th={{adj_appreciation_75th}}&adj_appreciation_med={{adj_appreciation_med}}&count={{count}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"portlandhomeappreciationannuallysince1990ish",
+														":id",
+														""
+													],
+													"query": [
+														{
+															"key": "prev_sale_year",
+															"value": "{{prev_sale_year}}"
+														},
+														{
+															"key": "sale_year",
+															"value": "{{sale_year}}"
+														},
+														{
+															"key": "raw_appreciation_mean",
+															"value": "{{raw_appreciation_mean}}"
+														},
+														{
+															"key": "raw_appreciation_25th",
+															"value": "{{raw_appreciation_25th}}"
+														},
+														{
+															"key": "raw_appreciation_75th",
+															"value": "{{raw_appreciation_75th}}"
+														},
+														{
+															"key": "raw_appreciation_med",
+															"value": "{{raw_appreciation_med}}"
+														},
+														{
+															"key": "adj_appreciation_mean",
+															"value": "{{adj_appreciation_mean}}"
+														},
+														{
+															"key": "adj_appreciation_25th",
+															"value": "{{adj_appreciation_25th}}"
+														},
+														{
+															"key": "adj_appreciation_75th",
+															"value": "{{adj_appreciation_75th}}"
+														},
+														{
+															"key": "adj_appreciation_med",
+															"value": "{{adj_appreciation_med}}"
+														},
+														{
+															"key": "count",
+															"value": "{{count}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "f02f3995-2889-4c70-8302-229f1560ff5c",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this portland home appreciation annually since1990 ish."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeappreciationannuallysince1990ish/<integer>/?prev_sale_year=<string>&sale_year=<number>&raw_appreciation_mean=<number>&raw_appreciation_25th=<number>&raw_appreciation_75th=<number>&raw_appreciation_med=<number>&adj_appreciation_mean=<number>&adj_appreciation_25th=<number>&adj_appreciation_75th=<number>&adj_appreciation_med=<number>&count=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"portlandhomeappreciationannuallysince1990ish",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "prev_sale_year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sale_year",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_mean",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_25th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_75th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "raw_appreciation_med",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_mean",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_25th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_75th",
+																	"value": "<number>"
+																},
+																{
+																	"key": "adj_appreciation_med",
+																	"value": "<number>"
+																},
+																{
+																	"key": "count",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "portlandhomeownershipbyrace",
+									"item": [
+										{
+											"name": "portlandhomeownershipbyrace list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "3fad8eee-7d2e-4b27-97da-bc174d9ee963",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeownershipbyrace/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"portlandhomeownershipbyrace",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeownershipbyrace/?limit=<integer>&offset=<integer>&yr=<number>&race=<string>&home_ownership_rate=<number>&home_ownership_count=<number>&household_count=<number>&geoname=<string>&fips=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"portlandhomeownershipbyrace",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "yr",
+																	"value": "<number>"
+																},
+																{
+																	"key": "race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "home_ownership_rate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "home_ownership_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "household_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geoname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "fips",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "portlandhomeownershipbyrace read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "d2c5d176-a3c3-4747-893c-89c8af5ddcb7",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('id','yr','race','home_ownership_rate','home_ownership_count','household_count','geoname','fips');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeownershipbyrace/:id/?yr={{yr}}&race={{race}}&home_ownership_rate={{home_ownership_rate}}&home_ownership_count={{home_ownership_count}}&household_count={{household_count}}&geoname={{geoname}}&fips={{fips}}",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"portlandhomeownershipbyrace",
+														":id",
+														""
+													],
+													"query": [
+														{
+															"key": "yr",
+															"value": "{{yr}}"
+														},
+														{
+															"key": "race",
+															"value": "{{race}}"
+														},
+														{
+															"key": "home_ownership_rate",
+															"value": "{{home_ownership_rate}}"
+														},
+														{
+															"key": "home_ownership_count",
+															"value": "{{home_ownership_count}}"
+														},
+														{
+															"key": "household_count",
+															"value": "{{household_count}}"
+														},
+														{
+															"key": "geoname",
+															"value": "{{geoname}}"
+														},
+														{
+															"key": "fips",
+															"value": "{{fips}}"
+														}
+													],
+													"variable": [
+														{
+															"id": "eeb38f5e-9899-4d69-b996-0c85f244680a",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this portland home ownership by race."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/portlandhomeownershipbyrace/<integer>/?yr=<number>&race=<string>&home_ownership_rate=<number>&home_ownership_count=<number>&household_count=<number>&geoname=<string>&fips=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"portlandhomeownershipbyrace",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "yr",
+																	"value": "<number>"
+																},
+																{
+																	"key": "race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "home_ownership_rate",
+																	"value": "<number>"
+																},
+																{
+																	"key": "home_ownership_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "household_count",
+																	"value": "<number>"
+																},
+																{
+																	"key": "geoname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "fips",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "racebytenure1990t2017",
+									"item": [
+										{
+											"name": "racebytenure1990t2017 list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "12bad9d3-30f9-47df-a02d-17c7e9e47fcb",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"racebytenure1990t2017Id\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/racebytenure1990t2017/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"racebytenure1990t2017",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/racebytenure1990t2017/?limit=<integer>&offset=<integer>&datayear=<number>&source=<string>&tract_fips=<string>&total_hh=<number>&total_own=<number>&share_own=<number>&total_hh_white=<number>&total_own_white=<number>&share_own_white=<number>&total_hh_black=<number>&total_own_black=<number>&share_own_black=<number>&total_hh_aian=<number>&total_own_aian=<number>&share_own_aian=<number>&total_hh_api=<number>&total_own_api=<number>&share_own_api=<number>&total_hh_other=<number>&total_own_other=<number>&share_own_other=<number>&total_hh_multi=<number>&total_own_multi=<number>&share_own_multi=<number>&total_hh_hisp=<number>&total_own_hisp=<number>&share_own_hisp=<number>&share_total_own_white=<number>&share_total_own_black=<number>&share_total_own_aian=<number>&share_total_own_api=<number>&share_total_own_other=<number>&share_total_own_multi=<number>&share_total_own_hisp=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"racebytenure1990t2017",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "datayear",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tract_fips",
+																	"value": "<string>"
+																},
+																{
+																	"key": "total_hh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_hisp",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "racebytenure1990t2017 read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "5763a05a-548e-458c-95df-59984b31da92",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/racebytenure1990t2017/:id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"racebytenure1990t2017",
+														":id",
+														""
+													],
+													"variable": [
+														{
+															"id": "83c09dda-9049-4499-a43b-ca417fc79743",
+															"key": "id",
+															"value": "{{racebytenure1990t2017Id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this race by tenure1990 t2017."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/racebytenure1990t2017/<integer>/?datayear=<number>&source=<string>&tract_fips=<string>&total_hh=<number>&total_own=<number>&share_own=<number>&total_hh_white=<number>&total_own_white=<number>&share_own_white=<number>&total_hh_black=<number>&total_own_black=<number>&share_own_black=<number>&total_hh_aian=<number>&total_own_aian=<number>&share_own_aian=<number>&total_hh_api=<number>&total_own_api=<number>&share_own_api=<number>&total_hh_other=<number>&total_own_other=<number>&share_own_other=<number>&total_hh_multi=<number>&total_own_multi=<number>&share_own_multi=<number>&total_hh_hisp=<number>&total_own_hisp=<number>&share_own_hisp=<number>&share_total_own_white=<number>&share_total_own_black=<number>&share_total_own_aian=<number>&share_total_own_api=<number>&share_total_own_other=<number>&share_total_own_multi=<number>&share_total_own_hisp=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"racebytenure1990t2017",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "datayear",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tract_fips",
+																	"value": "<string>"
+																},
+																{
+																	"key": "total_hh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_hisp",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "residentialbuildingpermitdata",
+									"item": [
+										{
+											"name": "residentialbuildingpermitdata list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "61ad8e24-3469-4626-915b-8de9cc8d121a",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/residentialbuildingpermitdata/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"residentialbuildingpermitdata",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/residentialbuildingpermitdata/?limit=<integer>&offset=<integer>&index=<number>&x=<number>&y=<number>&objectid=<number>&indate=<string>&issuedate=<string>&status=<string>&year_field=<number>&newclass=<string>&newtype=<string>&nbrhood=<string>&pdxbnd=<string>&is_adu=<string>&rev=<string>&foldernumb=<string>&prop_addre=<string>&workdesc=<string>&sub=<string>&occ=<string>&new_units=<number>&folder_des=<string>&valuation=<number>&const=<string>&proplot=<string>&propgisid1=<string>&propertyro=<string>&folderrsn=<number>&x_coord=<number>&y_coord=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"residentialbuildingpermitdata",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "x",
+																	"value": "<number>"
+																},
+																{
+																	"key": "y",
+																	"value": "<number>"
+																},
+																{
+																	"key": "objectid",
+																	"value": "<number>"
+																},
+																{
+																	"key": "indate",
+																	"value": "<string>"
+																},
+																{
+																	"key": "issuedate",
+																	"value": "<string>"
+																},
+																{
+																	"key": "status",
+																	"value": "<string>"
+																},
+																{
+																	"key": "year_field",
+																	"value": "<number>"
+																},
+																{
+																	"key": "newclass",
+																	"value": "<string>"
+																},
+																{
+																	"key": "newtype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "nbrhood",
+																	"value": "<string>"
+																},
+																{
+																	"key": "pdxbnd",
+																	"value": "<string>"
+																},
+																{
+																	"key": "is_adu",
+																	"value": "<string>"
+																},
+																{
+																	"key": "rev",
+																	"value": "<string>"
+																},
+																{
+																	"key": "foldernumb",
+																	"value": "<string>"
+																},
+																{
+																	"key": "prop_addre",
+																	"value": "<string>"
+																},
+																{
+																	"key": "workdesc",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sub",
+																	"value": "<string>"
+																},
+																{
+																	"key": "occ",
+																	"value": "<string>"
+																},
+																{
+																	"key": "new_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "folder_des",
+																	"value": "<string>"
+																},
+																{
+																	"key": "valuation",
+																	"value": "<number>"
+																},
+																{
+																	"key": "const",
+																	"value": "<string>"
+																},
+																{
+																	"key": "proplot",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propgisid1",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propertyro",
+																	"value": "<string>"
+																},
+																{
+																	"key": "folderrsn",
+																	"value": "<number>"
+																},
+																{
+																	"key": "x_coord",
+																	"value": "<number>"
+																},
+																{
+																	"key": "y_coord",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "residentialbuildingpermitdata read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "f219443f-3745-42e5-a431-33f2985398af",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('index','x','y','objectid','indate','issuedate','status','year_field','newclass','newtype','nbrhood','pdxbnd','is_adu','rev','foldernumb','prop_addre','workdesc','sub','occ','new_units','folder_des','valuation','const','proplot','propgisid1','propertyro','folderrsn','x_coord','y_coord');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/residentialbuildingpermitdata/:id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"residentialbuildingpermitdata",
+														":id",
+														""
+													],
+													"variable": [
+														{
+															"id": "f0a5ba38-be91-4b83-97b9-ec65f6078160",
+															"key": "id",
+															"value": "{{id}}",
+															"type": "string"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/residentialbuildingpermitdata/<string>/?index=<number>&x=<number>&y=<number>&objectid=<number>&indate=<string>&issuedate=<string>&status=<string>&year_field=<number>&newclass=<string>&newtype=<string>&nbrhood=<string>&pdxbnd=<string>&is_adu=<string>&rev=<string>&foldernumb=<string>&prop_addre=<string>&workdesc=<string>&sub=<string>&occ=<string>&new_units=<number>&folder_des=<string>&valuation=<number>&const=<string>&proplot=<string>&propgisid1=<string>&propertyro=<string>&folderrsn=<number>&x_coord=<number>&y_coord=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"residentialbuildingpermitdata",
+																"<string>",
+																""
+															],
+															"query": [
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "x",
+																	"value": "<number>"
+																},
+																{
+																	"key": "y",
+																	"value": "<number>"
+																},
+																{
+																	"key": "objectid",
+																	"value": "<number>"
+																},
+																{
+																	"key": "indate",
+																	"value": "<string>"
+																},
+																{
+																	"key": "issuedate",
+																	"value": "<string>"
+																},
+																{
+																	"key": "status",
+																	"value": "<string>"
+																},
+																{
+																	"key": "year_field",
+																	"value": "<number>"
+																},
+																{
+																	"key": "newclass",
+																	"value": "<string>"
+																},
+																{
+																	"key": "newtype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "nbrhood",
+																	"value": "<string>"
+																},
+																{
+																	"key": "pdxbnd",
+																	"value": "<string>"
+																},
+																{
+																	"key": "is_adu",
+																	"value": "<string>"
+																},
+																{
+																	"key": "rev",
+																	"value": "<string>"
+																},
+																{
+																	"key": "foldernumb",
+																	"value": "<string>"
+																},
+																{
+																	"key": "prop_addre",
+																	"value": "<string>"
+																},
+																{
+																	"key": "workdesc",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sub",
+																	"value": "<string>"
+																},
+																{
+																	"key": "occ",
+																	"value": "<string>"
+																},
+																{
+																	"key": "new_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "folder_des",
+																	"value": "<string>"
+																},
+																{
+																	"key": "valuation",
+																	"value": "<number>"
+																},
+																{
+																	"key": "const",
+																	"value": "<string>"
+																},
+																{
+																	"key": "proplot",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propgisid1",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propertyro",
+																	"value": "<string>"
+																},
+																{
+																	"key": "folderrsn",
+																	"value": "<number>"
+																},
+																{
+																	"key": "x_coord",
+																	"value": "<number>"
+																},
+																{
+																	"key": "y_coord",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "sc2hmdaapprovalbyrace2013t2017",
+									"item": [
+										{
+											"name": "sc2hmdaapprovalbyrace2013t2017 list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "5513f3d2-2a34-4d27-899d-a30a8f1fb50a",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"sc2hmdaapprovalbyrace2013t2017Id\", jsonData.results.features[0][\"id\"]);",
+															"    ",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/sc2hmdaapprovalbyrace2013t2017/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"sc2hmdaapprovalbyrace2013t2017",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/sc2hmdaapprovalbyrace2013t2017/?limit=<integer>&offset=<integer>&geoid=<string>&datayear=<number>&source=<string>&total_hh=<number>&total_own=<number>&share_own=<number>&total_hh_white=<number>&total_own_white=<number>&share_own_white=<number>&total_hh_black=<number>&total_own_black=<number>&share_own_black=<number>&total_hh_aian=<number>&total_own_aian=<number>&share_own_aian=<number>&total_hh_api=<number>&total_own_api=<number>&share_own_api=<number>&total_hh_other=<number>&total_own_other=<number>&share_own_other=<number>&total_hh_multi=<number>&total_own_multi=<number>&share_own_multi=<number>&total_hh_hisp=<number>&total_own_hisp=<number>&share_own_hisp=<number>&share_total_own_white=<number>&share_total_own_black=<number>&share_total_own_aian=<number>&share_total_own_api=<number>&share_total_own_other=<number>&share_total_own_multi=<number>&share_total_own_hisp=<number>&loans_total=<number>&loans_white=<number>&loans_black=<number>&loans_aian=<number>&loans_api=<number>&loans_multi=<number>&loans_hisp=<number>&loans_share_white=<number>&loans_share_black=<number>&loans_share_aian=<number>&loans_share_api=<number>&loans_share_multi=<number>&loans_share_hisp=<number>&lq_white=<number>&lq_black=<number>&lq_aian=<number>&lq_api=<number>&lq_multi=<number>&lq_hisp=<number>&lq_white_brks=<string>&lq_black_brks=<string>&lq_aian_brks=<string>&lq_api_brks=<string>&lq_multi_brks=<string>&lq_hisp_brks=<string>&share_hh_white=<number>&share_hh_black=<number>&share_hh_aian=<number>&share_hh_api=<number>&share_hh_multi=<number>&share_hh_hisp=<number>&lq_hh_white=<number>&lq_hh_black=<number>&lq_hh_aian=<number>&lq_hh_api=<number>&lq_hh_multi=<number>&lq_hh_hisp=<number>&lq_hh_white_brks=<string>&lq_hh_black_brks=<string>&lq_hh_aian_brks=<string>&lq_hh_api_brks=<string>&lq_hh_multi_brks=<string>&lq_hh_hisp_brks=<string>&aland=<number>&awater=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"sc2hmdaapprovalbyrace2013t2017",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "geoid",
+																	"value": "<string>"
+																},
+																{
+																	"key": "datayear",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "total_hh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_white_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_black_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_aian_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_api_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_multi_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hisp_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "share_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_white_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_black_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_aian_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_api_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_multi_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_hisp_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aland",
+																	"value": "<number>"
+																},
+																{
+																	"key": "awater",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "sc2hmdaapprovalbyrace2013t2017 read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "05324109-7a68-4a6e-9395-184b1163288a",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/sc2hmdaapprovalbyrace2013t2017/:id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"sc2hmdaapprovalbyrace2013t2017",
+														":id",
+														""
+													],
+													"variable": [
+														{
+															"id": "1263a998-4746-4dcb-8529-bdcac1ce5c45",
+															"key": "id",
+															"value": "{{sc2hmdaapprovalbyrace2013t2017Id}}",
+															"type": "string",
+															"description": "A unique integer value identifying this sc2 hmda approval by race2013 t2017."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/sc2hmdaapprovalbyrace2013t2017/<integer>/?geoid=<string>&datayear=<number>&source=<string>&total_hh=<number>&total_own=<number>&share_own=<number>&total_hh_white=<number>&total_own_white=<number>&share_own_white=<number>&total_hh_black=<number>&total_own_black=<number>&share_own_black=<number>&total_hh_aian=<number>&total_own_aian=<number>&share_own_aian=<number>&total_hh_api=<number>&total_own_api=<number>&share_own_api=<number>&total_hh_other=<number>&total_own_other=<number>&share_own_other=<number>&total_hh_multi=<number>&total_own_multi=<number>&share_own_multi=<number>&total_hh_hisp=<number>&total_own_hisp=<number>&share_own_hisp=<number>&share_total_own_white=<number>&share_total_own_black=<number>&share_total_own_aian=<number>&share_total_own_api=<number>&share_total_own_other=<number>&share_total_own_multi=<number>&share_total_own_hisp=<number>&loans_total=<number>&loans_white=<number>&loans_black=<number>&loans_aian=<number>&loans_api=<number>&loans_multi=<number>&loans_hisp=<number>&loans_share_white=<number>&loans_share_black=<number>&loans_share_aian=<number>&loans_share_api=<number>&loans_share_multi=<number>&loans_share_hisp=<number>&lq_white=<number>&lq_black=<number>&lq_aian=<number>&lq_api=<number>&lq_multi=<number>&lq_hisp=<number>&lq_white_brks=<string>&lq_black_brks=<string>&lq_aian_brks=<string>&lq_api_brks=<string>&lq_multi_brks=<string>&lq_hisp_brks=<string>&share_hh_white=<number>&share_hh_black=<number>&share_hh_aian=<number>&share_hh_api=<number>&share_hh_multi=<number>&share_hh_hisp=<number>&lq_hh_white=<number>&lq_hh_black=<number>&lq_hh_aian=<number>&lq_hh_api=<number>&lq_hh_multi=<number>&lq_hh_hisp=<number>&lq_hh_white_brks=<string>&lq_hh_black_brks=<string>&lq_hh_aian_brks=<string>&lq_hh_api_brks=<string>&lq_hh_multi_brks=<string>&lq_hh_hisp_brks=<string>&aland=<number>&awater=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"sc2hmdaapprovalbyrace2013t2017",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "geoid",
+																	"value": "<string>"
+																},
+																{
+																	"key": "datayear",
+																	"value": "<number>"
+																},
+																{
+																	"key": "source",
+																	"value": "<string>"
+																},
+																{
+																	"key": "total_hh",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_other",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_total_own_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loans_share_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_white_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_black_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_aian_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_api_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_multi_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hisp_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "share_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_white",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_black",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_aian",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_api",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_multi",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_hisp",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lq_hh_white_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_black_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_aian_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_api_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_multi_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "lq_hh_hisp_brks",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aland",
+																	"value": "<number>"
+																},
+																{
+																	"key": "awater",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "tl201041tabblock10",
+									"item": [
+										{
+											"name": "tl201041tabblock10 list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "adc566bb-26f1-4552-a330-6c2241e875cc",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    // Save result data to env vars",
+															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"        pm.environment.set(key, jsonData.results[0][key]);",
+															"    });",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/tl201041tabblock10/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"tl201041tabblock10",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/tl201041tabblock10/?limit=<integer>&offset=<integer>&statefp10=<string>&countyfp10=<string>&tractce10=<string>&blockce10=<string>&geoid10=<string>&name10=<string>&mtfcc10=<string>&ur10=<string>&uace10=<string>&uatyp10=<string>&funcstat10=<string>&aland10=<number>&awater10=<number>&intptlat10=<string>&intptlon10=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"tl201041tabblock10",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "statefp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "countyfp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractce10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "blockce10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "geoid10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "name10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "mtfcc10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "ur10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "uace10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "uatyp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "funcstat10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aland10",
+																	"value": "<number>"
+																},
+																{
+																	"key": "awater10",
+																	"value": "<number>"
+																},
+																{
+																	"key": "intptlat10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "intptlon10",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "tl201041tabblock10 read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "b4ac4b7d-29f9-4005-98ef-6f590be2acc5",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    var jsonData = pm.response.json();",
+															"    pm.expect(jsonData).to.have.all.keys('ogc_fid','statefp10','countyfp10','tractce10','blockce10','geoid10','name10','mtfcc10','ur10','uace10','uatyp10','funcstat10','aland10','awater10','intptlat10','intptlon10','wkb_geometry');",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/tl201041tabblock10/:ogc_fid/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"tl201041tabblock10",
+														":ogc_fid",
+														""
+													],
+													"variable": [
+														{
+															"id": "71306b54-668e-4ec6-a7b3-cb8630eac87c",
+															"key": "ogc_fid",
+															"value": "{{ogc_fid}}",
+															"type": "string"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/tl201041tabblock10/<integer>/?statefp10=<string>&countyfp10=<string>&tractce10=<string>&blockce10=<string>&geoid10=<string>&name10=<string>&mtfcc10=<string>&ur10=<string>&uace10=<string>&uatyp10=<string>&funcstat10=<string>&aland10=<number>&awater10=<number>&intptlat10=<string>&intptlon10=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"tl201041tabblock10",
+																"<integer>",
+																""
+															],
+															"query": [
+																{
+																	"key": "statefp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "countyfp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tractce10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "blockce10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "geoid10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "name10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "mtfcc10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "ur10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "uace10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "uatyp10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "funcstat10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "aland10",
+																	"value": "<number>"
+																},
+																{
+																	"key": "awater10",
+																	"value": "<number>"
+																},
+																{
+																	"key": "intptlat10",
+																	"value": "<string>"
+																},
+																{
+																	"key": "intptlon10",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "totalloans",
+									"item": [
+										{
+											"name": "totalloans list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "35ab2481-e75e-4d79-ae06-b2edbddeace9",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"});",
+															"",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
+															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
+															"    pm.expect(jsonData.results.features).to.be.an('array');",
+															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.environment.set(\"totalloansId\", jsonData.results.features[0][\"id\"]);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/totalloans/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"totalloans",
+														""
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/totalloans/?limit=<integer>&offset=<integer>&index=<number>&tct_fips=<number>&total_loans=<number>&total_poc_loans=<number>&share_loans_to_poc=<number>&year=<string>&pop_total=<number>&poc_total=<number>&share_poc=<number>&total_homeowners=<number>&poc_owners=<number>&share_poc_owners=<number>&loan_lq=<number>&brks_lq=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"totalloans",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "tct_fips",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_loans",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_poc_loans",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_loans_to_poc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "pop_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "poc_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_poc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_homeowners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "poc_owners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_poc_owners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loan_lq",
+																	"value": "<number>"
+																},
+																{
+																	"key": "brks_lq",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
+										{
+											"name": "totalloans read",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "790f62c6-7ea2-4a32-a6e4-92ae2d831e6b",
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"pm.test(\"Results is Feature Collection\", function () {",
+															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
+															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/totalloans/:index/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"totalloans",
+														":index",
+														""
+													],
+													"variable": [
+														{
+															"id": "886cfcb4-1f14-44a4-b5ec-42496c6fc47c",
+															"key": "index",
+															"value": "{{totalloansId}}",
+															"type": "string",
+															"description": "A unique value identifying this total loans."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/totalloans/<string>/?index=<number>&tct_fips=<number>&total_loans=<number>&total_poc_loans=<number>&share_loans_to_poc=<number>&year=<string>&pop_total=<number>&poc_total=<number>&share_poc=<number>&total_homeowners=<number>&poc_owners=<number>&share_poc_owners=<number>&loan_lq=<number>&brks_lq=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"totalloans",
+																"<string>",
+																""
+															],
+															"query": [
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "tct_fips",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_loans",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_poc_loans",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_loans_to_poc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "pop_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "poc_total",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_poc",
+																	"value": "<number>"
+																},
+																{
+																	"key": "total_homeowners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "poc_owners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "share_poc_owners",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loan_lq",
+																	"value": "<number>"
+																},
+																{
+																	"key": "brks_lq",
+																	"value": "<string>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "portland-metro-tract-population-by-race list",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7828a174-1abc-4b69-8f13-e5e2f0fc7afc",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"",
+													"pm.test(\"Check if object contains all provided keys\", function () {",
+													"    pm.expect(jsonData).to.have.all.keys('2000', '2017', '2010','1990');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/housing2019/v1/api/portland-metro-tract-population-by-race",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"housing2019",
+												"v1",
+												"api",
+												"portland-metro-tract-population-by-race"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Untitled Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/portland-metro-tract-population-by-race",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"portland-metro-tract-population-by-race"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/housing2019/v1/schema/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"housing2019",
+										"v1",
+										"schema",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/housing2019/v1/schema/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"housing2019",
+												"v1",
+												"schema",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "baseUrl",
+			"key": "baseUrl",
+			"value": "http://service.civicpdx.org",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
