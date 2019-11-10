@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "20e606d9-5c19-41ed-a6ca-901bc7a6f423",
+		"_postman_id": "3ebb61dc-92c2-48f6-a124-aa4201c32178",
 		"name": "Hack Oregon Housing 2019 API",
 		"description": "APIs for 2019 housing project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -16,6 +16,58 @@
 							"name": "api",
 							"item": [
 								{
+									"name": "setup",
+									"item": [
+										{
+											"name": "Setup",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"id": "5075f62b-ca1a-484a-9f3e-b1673128e029",
+														"exec": [
+															"pm.environment.set(\"passed\", 0);",
+															"pm.environment.set(\"failed\", 0);",
+															"",
+															"pm.environment.set(\"failedTests\", JSON.stringify([]));"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "https://postman-echo.com/get?foo1=bar1&foo2=bar2",
+													"protocol": "https",
+													"host": [
+														"postman-echo",
+														"com"
+													],
+													"path": [
+														"get"
+													],
+													"query": [
+														{
+															"key": "foo1",
+															"value": "bar1"
+														},
+														{
+															"key": "foo2",
+															"value": "bar2"
+														}
+													]
+												},
+												"description": "A setup step"
+											},
+											"response": []
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								},
+								{
 									"name": "fipsrecords",
 									"item": [
 										{
@@ -26,18 +78,44 @@
 													"script": {
 														"id": "0562694a-98db-4846-a7f7-0027f3bb6fa1",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
+															"",
 															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															""
 														],
 														"type": "text/javascript"
@@ -132,14 +210,42 @@
 													"script": {
 														"id": "8c1a367c-0a26-49b1-b2e3-a8895821190d",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('geo_fips', 'geo_state', 'geo_county','geo_tract');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -184,10 +290,8 @@
 													],
 													"variable": [
 														{
-															"id": "14cc60cc-9072-4b07-8f0c-f267d611aed9",
 															"key": "geo_fips",
 															"value": "{{geo_fips}}",
-															"type": "string",
 															"description": "A unique value identifying this fips records."
 														}
 													]
@@ -247,12 +351,300 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "da27f4a9-2a69-4772-a0ac-dbce4adc04bd",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - fipsrecords\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "66dfef53-5177-4501-ae64-993ad12d35e6",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
 								{
 									"name": "hmdaorwa",
 									"item": [
+										{
+											"name": "hmdaorwa list",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "60e51eb8-8219-4528-ad4b-7ef42bef819a",
+														"exec": [
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
+															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName, pm.response)",
+															"",
+															"if (pm.response.to.have.status(200)) {",
+															"  var jsonData = pm.response.json();",
+															"",
+															"    testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"    pm.test(testName, function () {",
+															"        pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"        pm.environment.set(\"TEST\", \"TRUE\");",
+															"        // Save result data to env vars",
+															"        Object.keys(jsonData.results[0]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    });",
+															"    evalTest(pm.environment.get(\"TEST\"), testName)",
+															"}",
+															"",
+															"",
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/housing2019/v1/api/hmdaorwa/?limit=1",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"housing2019",
+														"v1",
+														"api",
+														"hmdaorwa",
+														""
+													],
+													"query": [
+														{
+															"key": "limit",
+															"value": "1"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Untitled Response",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/housing2019/v1/api/hmdaorwa/?limit=<integer>&offset=<integer>&index=<number>&year=<string>&actiontakentype=<string>&agencyname=<string>&applicant1_sex_name=<string>&applicant1race=<string>&applicant2_sex_name=<string>&applicant2race=<string>&applicantincome=<number>&censustract=<string>&countycode=<string>&denialreason1=<string>&denialreason2=<string>&denialreason3=<string>&editstatus=<string>&hoepa_loan=<string>&hud_median_family_income=<number>&lienstatus=<string>&loanamount=<number>&loanpurpose=<string>&loantype=<string>&minority_population=<number>&msaofproperty=<string>&number_of_1_to_4_family_units=<number>&number_of_owner_occupied_units=<number>&occupancy=<string>&population=<number>&preapprovals=<string>&propertytype=<string>&purchasertype=<string>&ratespread=<number>&respondent_id=<string>&sequencenumber=<number>&state=<string>&tract_to_msamd_income=<number>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"housing2019",
+																"v1",
+																"api",
+																"hmdaorwa",
+																""
+															],
+															"query": [
+																{
+																	"key": "limit",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "offset",
+																	"value": "<integer>"
+																},
+																{
+																	"key": "index",
+																	"value": "<number>"
+																},
+																{
+																	"key": "year",
+																	"value": "<string>"
+																},
+																{
+																	"key": "actiontakentype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "agencyname",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant1_sex_name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant1race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant2_sex_name",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicant2race",
+																	"value": "<string>"
+																},
+																{
+																	"key": "applicantincome",
+																	"value": "<number>"
+																},
+																{
+																	"key": "censustract",
+																	"value": "<string>"
+																},
+																{
+																	"key": "countycode",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason1",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason2",
+																	"value": "<string>"
+																},
+																{
+																	"key": "denialreason3",
+																	"value": "<string>"
+																},
+																{
+																	"key": "editstatus",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hoepa_loan",
+																	"value": "<string>"
+																},
+																{
+																	"key": "hud_median_family_income",
+																	"value": "<number>"
+																},
+																{
+																	"key": "lienstatus",
+																	"value": "<string>"
+																},
+																{
+																	"key": "loanamount",
+																	"value": "<number>"
+																},
+																{
+																	"key": "loanpurpose",
+																	"value": "<string>"
+																},
+																{
+																	"key": "loantype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "minority_population",
+																	"value": "<number>"
+																},
+																{
+																	"key": "msaofproperty",
+																	"value": "<string>"
+																},
+																{
+																	"key": "number_of_1_to_4_family_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "number_of_owner_occupied_units",
+																	"value": "<number>"
+																},
+																{
+																	"key": "occupancy",
+																	"value": "<string>"
+																},
+																{
+																	"key": "population",
+																	"value": "<number>"
+																},
+																{
+																	"key": "preapprovals",
+																	"value": "<string>"
+																},
+																{
+																	"key": "propertytype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "purchasertype",
+																	"value": "<string>"
+																},
+																{
+																	"key": "ratespread",
+																	"value": "<number>"
+																},
+																{
+																	"key": "respondent_id",
+																	"value": "<string>"
+																},
+																{
+																	"key": "sequencenumber",
+																	"value": "<number>"
+																},
+																{
+																	"key": "state",
+																	"value": "<string>"
+																},
+																{
+																	"key": "tract_to_msamd_income",
+																	"value": "<number>"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "text/plain"
+														}
+													],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										},
 										{
 											"name": "hmdaorwa read",
 											"event": [
@@ -261,16 +653,43 @@
 													"script": {
 														"id": "fb510616-c20a-4d2c-b7b8-29e37768cc94",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys(\"index\",\"year\",\"actiontakentype\",\"agencyname\",\"applicant1_sex_name\",\"applicant1race\",\"applicant2_sex_name\",\"applicant2race\",\"applicantincome\",\"censustract\",\"countycode\",\"denialreason1\",\"denialreason2\",\"denialreason3\",\"editstatus\",\"hoepa_loan\",\"hud_median_family_income\",\"lienstatus\",\"loanamount\",\"loanpurpose\",\"loantype\",\"minority_population\",\"msaofproperty\",\"number_of_1_to_4_family_units\",\"number_of_owner_occupied_units\",\"occupancy\",\"population\",\"preapprovals\",\"propertytype\",\"purchasertype\",\"ratespread\",\"respondent_id\",\"sequencenumber\",\"state\",\"tract_to_msamd_income\"",
 															"    );",
+															"  pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															""
 														],
 														"type": "text/javascript"
@@ -298,10 +717,8 @@
 													],
 													"variable": [
 														{
-															"id": "4a0502fb-2cfe-4f18-aecc-10b7b95a8061",
 															"key": "index",
 															"value": "115",
-															"type": "string",
 															"description": "A unique value identifying this hmda orwa."
 														}
 													]
@@ -485,6 +902,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "757fd38a-88da-4583-af0d-d755de7dc6cf",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - hmdaorwa\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "9e0c05b8-ecf6-482a-8650-f725b9c1857e",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -499,25 +938,59 @@
 													"script": {
 														"id": "0dda5621-87d7-4373-879a-8f1f3dc69f31",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"holcportlandredliningId\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -621,16 +1094,38 @@
 													"script": {
 														"id": "a609469d-be0c-41bc-bd17-cf99a9b89b11",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -711,6 +1206,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "6699ce44-fc72-4cd3-80be-9e92b9db6c0f",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - holcportlandredlining\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6525d01a-1cd2-4340-a971-80b23e7a14b1",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -725,25 +1242,57 @@
 													"script": {
 														"id": "b6bab185-baec-49e4-ad00-c21fee2f7c30",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"homeinflationkrigingId\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -825,16 +1374,38 @@
 													"script": {
 														"id": "9cf859fe-82de-4762-8499-eebe5d26e735",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -903,6 +1474,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "1791545d-0576-44b0-abcd-5d9502ee7631",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - homeinflationkriging\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "5ef64ee6-c03e-4b7c-af16-e774b0a7398c",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -927,18 +1520,45 @@
 													"script": {
 														"id": "31fdb246-97cc-42ba-910f-eec28a527568",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -1036,15 +1656,42 @@
 													"script": {
 														"id": "9e036897-f17d-4dbc-bf1f-e004484ce966",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('id', 'race_explicit', 'year','adjusted_median_income','source','aggregation');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
-															""
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -1093,10 +1740,8 @@
 													],
 													"variable": [
 														{
-															"id": "1a7a3590-27fd-418d-9ea4-ab501c1a253f",
 															"key": "id",
-															"value": "{{id}}",
-															"type": "string"
+															"value": "{{id}}"
 														}
 													]
 												}
@@ -1159,6 +1804,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7a08c36c-c4c3-42fc-b3b6-c3a4f9f6e1c0",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - medianhouseholdincomebyrace1990t2017msa\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "19e55558-b28f-4d8a-9ffa-cad3026a0b4c",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -1173,25 +1840,57 @@
 													"script": {
 														"id": "a9bc9900-aab7-4e6f-a852-05e0385ed537",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"medianhouseholdinecomebyrace2017Id\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -1321,16 +2020,38 @@
 													"script": {
 														"id": "2bbbd41a-3a2b-4458-99ef-6c67fdae442d",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -1357,10 +2078,8 @@
 													],
 													"variable": [
 														{
-															"id": "f64a4f93-604d-46f5-8f8c-1d98aec4695c",
 															"key": "id",
 															"value": "{{medianhouseholdinecomebyrace2017Id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this median household income by race2017."
 														}
 													]
@@ -1456,6 +2175,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b73880b2-b876-469c-8fd9-6482fc7ed911",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - medianhouseholdinecomebyrace2017\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "c6a42842-0c84-4753-8c7f-ab31350577b4",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -1470,18 +2211,45 @@
 													"script": {
 														"id": "1a3a420d-1ab2-42b8-b5b7-5c28f97736e3",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -1598,14 +2366,42 @@
 													"script": {
 														"id": "f4b9f046-8e2a-4977-bdf2-7ab55234eeb5",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('id', 'yr', 'race','home_ownership_rate','home_ownership_count','household_count','geoname','fips');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -1662,10 +2458,8 @@
 													],
 													"variable": [
 														{
-															"id": "e81b1b5f-8c62-49c5-8f49-8e2253a1c008",
 															"key": "id",
 															"value": "{{id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this multnomah home ownership by race."
 														}
 													]
@@ -1737,6 +2531,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2b419b35-7dea-43f9-ae2d-a7e8613f5a69",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - multnomahhomeownershipbyrace\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "361709db-48d9-4dc8-ae89-73e01c1d3a30",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -1751,18 +2567,45 @@
 													"script": {
 														"id": "40e96bf1-f4d5-492d-a2fd-518d2613043f",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -1952,14 +2795,42 @@
 													"script": {
 														"id": "0065260c-0751-4568-a3fa-bfed266ab245",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('id','cbsa','metroname','tractcontrol','start_year','end_year','chrent','chinc','chhomeval','chbachshare','chwhiteshare','chblackshare','chhispshare','chasothshare','chownshare','chpovrate','chrentcbshare','metchinc','metchbachshare','metchrent','metchhomeval','metchpovrate','metchownshare','metchrentcbshare','metchwhiteshare','metchblackshare','metchhispshare','metchasothshare','fips_code');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"",
 															""
@@ -2103,10 +2974,8 @@
 													],
 													"variable": [
 														{
-															"id": "154c1e23-e91c-4c1f-8ff9-74e384ef75f2",
 															"key": "id",
-															"value": "{{id}}",
-															"type": "string"
+															"value": "{{id}}"
 														}
 													]
 												}
@@ -2261,6 +3130,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "15cf18d4-51ee-49cd-8c26-f241af63fde0",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - ncdbsamplechanges\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "eacc403e-ae3c-438a-8576-301a78699cac",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -2275,25 +3166,57 @@
 													"script": {
 														"id": "c9ce8648-697f-4140-a3c8-5ccb37157d80",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"ncdbsampleyearlyId\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -2483,16 +3406,38 @@
 													"script": {
 														"id": "3f82ca2b-4ffa-4fda-bd9a-d76bf36c9b26",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -2519,10 +3464,8 @@
 													],
 													"variable": [
 														{
-															"id": "ff559ca8-76e3-452c-97f0-7147fe3e5b00",
 															"key": "id",
 															"value": "{{ncdbsampleyearlyId}}",
-															"type": "string",
 															"description": "A unique integer value identifying this ncdb sample yearly."
 														}
 													]
@@ -2678,6 +3621,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "3f285ae2-7c46-4f25-a313-ea92fc1e8bf1",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - ncdbsampleyearly\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "bb317cb1-d748-42e3-93c6-764d64f9c29e",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -2692,18 +3657,45 @@
 													"script": {
 														"id": "38dd968c-123b-4f17-a2b8-f5e3a02290fb",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -2825,14 +3817,43 @@
 													"script": {
 														"id": "f6c3f32e-3035-426f-87ad-d00317c9c26e",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('id','prev_sale_year','sale_year','raw_appreciation_mean','raw_appreciation_25th','raw_appreciation_75th','raw_appreciation_med','adj_appreciation_mean','adj_appreciation_25th','adj_appreciation_75th','adj_appreciation_med','count');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -2905,10 +3926,8 @@
 													],
 													"variable": [
 														{
-															"id": "f02f3995-2889-4c70-8302-229f1560ff5c",
 															"key": "id",
 															"value": "{{id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this portland home appreciation annually since1990 ish."
 														}
 													]
@@ -2996,6 +4015,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "939c9cb4-efc1-4a63-8f15-c2bdabcf68bd",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - portlandhomeappreciationannuallysince1990ish\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "06ce4658-a298-4812-8f66-783de427afeb",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -3010,18 +4051,45 @@
 													"script": {
 														"id": "3fad8eee-7d2e-4b27-97da-bc174d9ee963",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -3127,14 +4195,43 @@
 													"script": {
 														"id": "d2c5d176-a3c3-4747-893c-89c8af5ddcb7",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('id','yr','race','home_ownership_rate','home_ownership_count','household_count','geoname','fips');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -3191,10 +4288,8 @@
 													],
 													"variable": [
 														{
-															"id": "eeb38f5e-9899-4d69-b996-0c85f244680a",
 															"key": "id",
 															"value": "{{id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this portland home ownership by race."
 														}
 													]
@@ -3266,6 +4361,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c90afd7d-7b18-4eab-82dc-52a7216cd335",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - portlandhomeownershipbyrace\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "9110389c-c121-49a8-8d10-9296e1efdb74",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -3280,25 +4397,57 @@
 													"script": {
 														"id": "12bad9d3-30f9-47df-a02d-17c7e9e47fcb",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"racebytenure1990t2017Id\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -3512,16 +4661,38 @@
 													"script": {
 														"id": "5763a05a-548e-458c-95df-59984b31da92",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -3548,10 +4719,8 @@
 													],
 													"variable": [
 														{
-															"id": "83c09dda-9049-4499-a43b-ca417fc79743",
 															"key": "id",
 															"value": "{{racebytenure1990t2017Id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this race by tenure1990 t2017."
 														}
 													]
@@ -3731,6 +4900,29 @@
 											]
 										}
 									],
+									"description": "pm.environment.set(\"folder\", \"Housing 2019 - racebytenure1990t2017\")",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "4cc9d7ec-ad54-442f-ac74-237ca7335d85",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "dc8c86ea-8eff-4a70-8d93-b664394db4ca",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -3745,18 +4937,45 @@
 													"script": {
 														"id": "61ad8e24-3469-4626-915b-8de9cc8d121a",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -3950,14 +5169,43 @@
 													"script": {
 														"id": "f219443f-3745-42e5-a431-33f2985398af",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('index','x','y','objectid','indate','issuedate','status','year_field','newclass','newtype','nbrhood','pdxbnd','is_adu','rev','foldernumb','prop_addre','workdesc','sub','occ','new_units','folder_des','valuation','const','proplot','propgisid1','propertyro','folderrsn','x_coord','y_coord');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -3984,10 +5232,8 @@
 													],
 													"variable": [
 														{
-															"id": "f0a5ba38-be91-4b83-97b9-ec65f6078160",
 															"key": "id",
-															"value": "{{id}}",
-															"type": "string"
+															"value": "{{id}}"
 														}
 													]
 												}
@@ -4146,6 +5392,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "203fc3fa-3143-4d5f-b1b5-d19d6176150d",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - residentialbuildingpermitdata\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "e8d75670-3808-4d8d-b2bc-bb14243a791d",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -4160,25 +5428,57 @@
 													"script": {
 														"id": "5513f3d2-2a34-4d27-899d-a30a8f1fb50a",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"sc2hmdaapprovalbyrace2013t2017Id\", jsonData.results.features[0][\"id\"]);",
-															"    ",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -4572,16 +5872,38 @@
 													"script": {
 														"id": "05324109-7a68-4a6e-9395-184b1163288a",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -4608,10 +5930,8 @@
 													],
 													"variable": [
 														{
-															"id": "1263a998-4746-4dcb-8529-bdcac1ce5c45",
 															"key": "id",
 															"value": "{{sc2hmdaapprovalbyrace2013t2017Id}}",
-															"type": "string",
 															"description": "A unique integer value identifying this sc2 hmda approval by race2013 t2017."
 														}
 													]
@@ -4971,6 +6291,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "953636cd-c8ba-42c9-a1fb-c38388da3c7f",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - sc2hmdaapprovalbyrace2013t2017\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "4f38f4e2-6b33-45b1-a3d3-297fe6121a5c",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -4985,18 +6327,45 @@
 													"script": {
 														"id": "adc566bb-26f1-4552-a330-6c2241e875cc",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"    // Save result data to env vars",
-															"    Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"    Object.keys(jsonData.results[0]).forEach(function(key) {",
 															"        pm.environment.set(key, jsonData.results[0][key]);",
 															"    });",
-															"});"
+															"",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -5134,14 +6503,42 @@
 													"script": {
 														"id": "b4ac4b7d-29f9-4005-98ef-6f590be2acc5",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
+															"",
+															"",
+															"var jsonData = pm.response.json();",
+															"",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    var jsonData = pm.response.json();",
 															"    pm.expect(jsonData).to.have.all.keys('ogc_fid','statefp10','countyfp10','tractce10','blockce10','geoid10','name10','mtfcc10','ur10','uace10','uatyp10','funcstat10','aland10','awater10','intptlat10','intptlon10','wkb_geometry');",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -5168,10 +6565,8 @@
 													],
 													"variable": [
 														{
-															"id": "71306b54-668e-4ec6-a7b3-cb8630eac87c",
 															"key": "ogc_fid",
-															"value": "{{ogc_fid}}",
-															"type": "string"
+															"value": "{{ogc_fid}}"
 														}
 													]
 												}
@@ -5274,6 +6669,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b1152bb3-87b5-4c87-9fca-12ecd3aa8368",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - tl201041tabblock10\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "b93957d2-440a-4b87-81e9-c063098ee09c",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -5288,24 +6705,57 @@
 													"script": {
 														"id": "35ab2481-e75e-4d79-ae06-b2edbddeace9",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Check if object contains all provided keys\", function () {",
+															"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys('count', 'next', 'previous','results');",
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"    // Save result data to env vars",
+															"    if (jsonData.results.size > 0) {",
+															"        Object.keys(jsonData.results[1]).forEach(function(key) {",
+															"            pm.environment.set(key, jsonData.results[0][key]);",
+															"        });",
+															"    } ",
 															"});",
 															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData.results).to.have.all.keys('type', 'features');",
 															"    pm.expect(jsonData.results.type).to.equal(\"FeatureCollection\");",
 															"    pm.expect(jsonData.results.features).to.be.an('array');",
 															"    pm.expect(jsonData.results.features[0]).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
 															"    pm.environment.set(\"totalloansId\", jsonData.results.features[0][\"id\"]);",
-															"});"
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -5439,16 +6889,38 @@
 													"script": {
 														"id": "790f62c6-7ea2-4a32-a6e4-92ae2d831e6b",
 														"exec": [
-															"pm.test(\"Status code is 200\", function () {",
+															"function evalTest(result, testName) {",
+															"    if ( result == \"TRUE\") {",
+															"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+															"        pm.environment.set(\"passed\", thisPassed+1);",
+															"    } else {",
+															"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+															"        pm.environment.set(\"failed\", thisFailed+1);",
+															"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+															"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+															"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+															"    }",
+															"    pm.environment.set(\"TEST\", \"FALSE\");",
+															"}",
+															"",
+															"pm.environment.set(\"TEST\", \"FALSE\");",
+															"var requestName = pm.info.requestName;",
+															"",
+															"var testName = pm.info.requestName + \" - Status code is 200\"",
+															"pm.test(testName, function () {",
 															"    pm.response.to.have.status(200);",
+															"    pm.environment.set(\"TEST\", \"TRUE\");",
 															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)",
 															"",
 															"var jsonData = pm.response.json();",
 															"",
-															"pm.test(\"Results is Feature Collection\", function () {",
+															"var testName = pm.info.requestName + \" - Results is Feature Collection\"",
+															"pm.test(testName, function () {",
 															"    pm.expect(jsonData).to.have.all.keys(\"id\",\"type\",'geometry','properties');",
-															"    pm.expect(jsonData.type).to.equal(\"Feature\");",
-															"});"
+															"     pm.environment.set(\"TEST\", \"TRUE\");",
+															"});",
+															"evalTest(pm.environment.get(\"TEST\"), testName)"
 														],
 														"type": "text/javascript"
 													}
@@ -5475,10 +6947,8 @@
 													],
 													"variable": [
 														{
-															"id": "886cfcb4-1f14-44a4-b5ec-42496c6fc47c",
 															"key": "index",
 															"value": "{{totalloansId}}",
-															"type": "string",
 															"description": "A unique value identifying this total loans."
 														}
 													]
@@ -5578,6 +7048,28 @@
 											]
 										}
 									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9a3d4d0a-0f67-4b16-9447-7da491c51982",
+												"type": "text/javascript",
+												"exec": [
+													"pm.environment.set(\"folder\", \"Housing 2019 - totalloans\")"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "829ec80a-b88d-42ec-9b4c-d4dece5ddac1",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
 									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								},
@@ -5589,15 +7081,42 @@
 											"script": {
 												"id": "7828a174-1abc-4b69-8f13-e5e2f0fc7afc",
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {",
+													"function evalTest(result, testName) {",
+													"    if ( result == \"TRUE\") {",
+													"        thisPassed = parseInt(pm.environment.get(\"passed\"));",
+													"        pm.environment.set(\"passed\", thisPassed+1);",
+													"    } else {",
+													"        thisFailed = parseInt(pm.environment.get(\"failed\"));",
+													"        pm.environment.set(\"failed\", thisFailed+1);",
+													"        var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+													"        failedTests.push([pm.environment.get(\"folder\")+\" - \"+testName, pm.response.code, pm.response.status]);",
+													"        pm.environment.set(\"failedTests\", JSON.stringify(failedTests));",
+													"    }",
+													"    pm.environment.set(\"TEST\", \"FALSE\");",
+													"}",
+													"",
+													"pm.environment.set(\"TEST\", \"FALSE\");",
+													"var requestName = pm.info.requestName;",
+													"",
+													"testName = pm.info.requestName + \" - Status code is 200\"",
+													"pm.test(testName, function () {",
 													"    pm.response.to.have.status(200);",
+													"    pm.environment.set(\"TEST\", \"TRUE\");",
 													"});",
+													"",
+													"evalTest(pm.environment.get(\"TEST\"), testName)",
+													"",
 													"",
 													"var jsonData = pm.response.json();",
 													"",
-													"pm.test(\"Check if object contains all provided keys\", function () {",
+													"testName = pm.info.requestName + \" - Check if object contains all provided keys\"",
+													"pm.test(testName, function () {",
+													"    var jsonData = pm.response.json();",
 													"    pm.expect(jsonData).to.have.all.keys('2000', '2017', '2010','1990');",
+													"    pm.environment.set(\"TEST\", \"TRUE\");",
 													"});",
+													"",
+													"evalTest(pm.environment.get(\"TEST\"), testName)",
 													""
 												],
 												"type": "text/javascript"
@@ -5659,60 +7178,6 @@
 							],
 							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
-						},
-						{
-							"name": "list",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/housing2019/v1/schema/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"housing2019",
-										"v1",
-										"schema",
-										""
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Untitled Response",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/housing2019/v1/schema/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"housing2019",
-												"v1",
-												"schema",
-												""
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "text/plain"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -5720,11 +7185,104 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Slack - Postman Test Reporter",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fba64934-cbd7-404e-896f-e154314d8b59",
+						"exec": [
+							"const moment = require('moment');",
+							"var dateTime = moment().toISOString();",
+							"pm.environment.set(\"pretext\",  \"*==================\"+dateTime+\"======================*\\n{{failed}} Tests have failed\\n\");",
+							"var text = '';",
+							"var attachments = [];",
+							"var failedTests = JSON.parse(pm.environment.get(\"failedTests\"));",
+							"",
+							"// if (failedTests.length > 0) {",
+							"  for (i = 0; i < failedTests.length; i++) {",
+							"    text = failedTests[i][0] + \" - failed | Code: \"+failedTests[i][1]+\" | Reason: \"+failedTests[i][2]+\"\\n\";",
+							"    ",
+							"    if(i === 0) {",
+							"        var attachment = {",
+							"            \"pretext\": \"{{pretext}}\",",
+							"            \"text\": text,",
+							"            \"color\": \"#FF0000\",",
+							"            \"mrkdwn_in\": [",
+							"                \"text\",",
+							"                \"pretext\"",
+							"            ]",
+							"        } ",
+							"    } else {",
+							"            var attachment = {",
+							"            \"text\":text,",
+							"            \"color\": \"#FF0000\",",
+							"            \"mrkdwn_in\": [",
+							"                \"text\",",
+							"                \"pretext\"",
+							"                ]",
+							"            }",
+							"        }",
+							"        attachments.push(attachment);",
+							"    } ",
+							"// } ",
+							"console.log(JSON.stringify(attachments))",
+							"pm.environment.set(\"attachments\", JSON.stringify(attachments));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"attachments\": {{attachments}}\n}"
+				},
+				"url": {
+					"raw": "{{slack-web-hook}}",
+					"host": [
+						"{{slack-web-hook}}"
+					]
+				},
+				"description": "Reporting hook to slack, if test failed"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6ead2e5d-dbf4-4833-94ac-e028777fc130",
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"collection\", \"Housing 2019\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "249ea32f-2cdc-4836-b0c6-d56e5aaa9bd4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
-			"id": "baseUrl",
+			"id": "dae4b7d5-3af4-4a1c-850e-c9a78261cef7",
 			"key": "baseUrl",
 			"value": "http://service.civicpdx.org",
 			"type": "string"

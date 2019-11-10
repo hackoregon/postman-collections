@@ -4,6 +4,7 @@ node_js:
 
 install:
   - npm install newman
+  - npm install newman-reporter-slack
 
 before_script:
   - node --version

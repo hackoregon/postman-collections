@@ -10,4 +10,4 @@ Intent is to provide a basic level of regression testing when changes/updates ar
 
 ## Travis
 
-Travis is configured to run collections included on a cron job, will post to slack channel: #postman-alerts when tests fail.
+Travis is configured to run collections included on a cron job, will post to slack channel: #alerts-postman when tests fail.
