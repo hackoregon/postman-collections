@@ -11,4 +11,4 @@ before_script:
   - node_modules/.bin/newman --version
 
 script:
-  - node_modules/.bin/newman run 2019/Hack\ Oregon\ Housing\ 2019\ API.postman_collection.json
+  - ./scripts/run.sh
