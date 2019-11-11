@@ -1,20 +1,22 @@
 #! /bin/bash
 
-# newman run 2019/Hack\ Oregon\ Housing\ 2019\ API.postman_collection.json
-
 FILES=./2019/*
 for f in $FILES
 do
   filename=$(basename "$f")
   fname="${filename%.*}"
-  echo $fname
-  echo "Processing $fname file..."
   if [[ -z ${TRAVIS} ]];
   then
-    newman run "${f}"
-    echo "here"
+    source .env
+    newman run "${f}" --env-var slack-web-hook=$SLACKWEBHOOK
   else
-    node_modules/.bin/newman run "${f}"
-    echo "there"
+    node_modules/.bin/newman run "${f}" --env-var slack-web-hook=$SLACKWEBHOOK
   fi
 done
+
+curl -X POST \
+  $SLACKWEBHOOK \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "attachments": [{"pretext":"Travis Build URL:","text":"'$TRAVIS_BUILD_WEB_URL'","mrkdwn_in":["text","pretext"]}]
+}'
