@@ -13,3 +13,10 @@ do
     node_modules/.bin/newman run "${f}" --env-var slack-web-hook=$SLACKWEBHOOK
   fi
 done
+
+curl -X POST \
+  $SLACKWEBHOOK \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "attachments": [{"pretext":"Travis Build URL:","text":"'$TRAVIS_BUILD_WEB_URL'","mrkdwn_in":["text","pretext"]}]
+}'
